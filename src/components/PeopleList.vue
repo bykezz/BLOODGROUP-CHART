@@ -35,12 +35,14 @@ export default {
     const savedPeople = localStorage.getItem("people");
     if (savedPeople) {
       this.people = JSON.parse(savedPeople);
+      this.$emit("data-updated", this.people); // Emit event with data
     } else {
       const querySnapshot = await getDocs(collection(db, "people"));
       querySnapshot.forEach((doc) => {
         this.people.push({ id: doc.id, ...doc.data() });
       });
       localStorage.setItem("people", JSON.stringify(this.people));
+      this.$emit("data-updated", this.people); // Emit event with data
     }
   },
 };

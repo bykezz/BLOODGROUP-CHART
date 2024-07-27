@@ -2,8 +2,8 @@
   <div id="app">
     <AppHeader />
     <main>
-      <PeopleList />
-      <BarChart />
+      <PeopleList @data-updated="updatePeopleData" />
+      <BarChart :people="people" />
     </main>
   </div>
 </template>
@@ -19,6 +19,16 @@ export default {
     AppHeader,
     PeopleList,
     BarChart,
+  },
+  data() {
+    return {
+      people: [],
+    };
+  },
+  methods: {
+    updatePeopleData(newPeople) {
+      this.people = newPeople;
+    },
   },
 };
 </script>
