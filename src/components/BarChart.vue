@@ -42,6 +42,19 @@ export default {
         },
       },
       series: [],
+      tooltip: {
+        formatter: function () {
+          const seriesName = this.series.name;
+          const label = this.x;
+          const value = this.y;
+
+          if (seriesName.includes("Blood Group")) {
+            return `<b>Blood Group ${seriesName}</b><br/>Age Range: ${label}<br/>Number of People: ${value}`;
+          } else {
+            return `<b>Age Range ${label}</b><br/>Number of Person(s): ${value}`;
+          }
+        },
+      },
     });
 
     const chartKey = ref(0);
