@@ -8,7 +8,7 @@
         <li><strong>21 ≤ Age ≤ 30:</strong> Number of people aged between 21 and 30.</li>
         <li><strong>31 ≤ Age ≤ 40:</strong> Number of people aged between 31 and 40.</li>
         <li><strong>41 ≤ Age ≤ 50:</strong> Number of people aged between 41 and 50.</li>
-        <li><strong>Age ≥ 51:</strong> Number of people aged 51 and above.</li>
+
       </ul>
       <br>
       <strong>Blood Groups:</strong>
@@ -53,12 +53,13 @@ export default {
           name: 'Age Ranges',
           data: []
         }
-      ]
+      ],
+     
     });
 
     const processPeopleData = (people) => {
       const bloodGroups = {};
-      const ageRanges = { '0-20': 0, '21-30': 0, '31-40': 0, '41-50': 0, '51+': 0 };
+      const ageRanges = { '0-20': 0, '21-30': 0, '31-40': 0, '41-50': 0,};
 
       people.forEach((person) => {
        
@@ -70,11 +71,9 @@ export default {
           ageRanges['21-30'] += 1;
         } else if (person.age <= 40) {
           ageRanges['31-40'] += 1;
-        } else if (person.age <= 50) {
+        } else  {
           ageRanges['41-50'] += 1;
-        } else {
-          ageRanges['51+'] += 1;
-        }
+        } 
       });
 
       return { bloodGroups, ageRanges };
@@ -82,6 +81,7 @@ export default {
 
     onMounted(() => {
       const savedPeople = JSON.parse(localStorage.getItem('people'));
+      console.log(savedPeople)
       if (savedPeople) {
         const { bloodGroups, ageRanges } = processPeopleData(savedPeople);
 
