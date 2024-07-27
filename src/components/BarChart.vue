@@ -2,9 +2,7 @@
   <div class="bar-chart">
     <br />
     <highcharts :options="chartOptions" :key="chartKey"></highcharts>
-    <p class="">
-      <strong>Age Ranges:</strong>
-
+    <p class="chart-description">
       <br />
     </p>
   </div>
@@ -26,14 +24,17 @@ export default {
     const chartOptions = ref({
       chart: {
         type: "column",
-        width: 800,
-        height: 400,
+        width: null,
+        height: 500,
       },
       title: {
         text: "Distribution of People by Blood Group and Age Range",
       },
       xAxis: {
         categories: [],
+        title: {
+          text: "Age Ranges",
+        },
       },
       yAxis: {
         title: {
@@ -90,7 +91,7 @@ export default {
           })
         );
 
-        chartKey.value += 1; // Trigger re-render
+        chartKey.value += 1;
       },
       { immediate: true }
     );
@@ -105,9 +106,7 @@ export default {
 
 <style scoped>
 .bar-chart {
-  width: 100%; /* Ensure the container takes up full width */
-  display: flex;
-  margin-top: 50px;
-  justify-content: center; /* Center the chart horizontally */
+  width: 80%;
+  height: auto;
 }
 </style>

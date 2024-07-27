@@ -50,27 +50,35 @@ export default {
 
 <style scoped>
 .people-list {
+  width: 100%; /* Ensure the list takes full width */
+  max-width: 600px; /* Set a max width for the list */
   padding: 1rem;
+  box-sizing: border-box; /* Include padding in width calculation */
 }
+
 .people-list h2 {
   text-align: center;
   font-size: larger;
   margin-bottom: 1rem;
 }
+
 .people-list table {
-  width: 50%;
+  width: 100%;
   border-collapse: collapse;
   margin: auto;
 }
+
 .people-list th,
 .people-list td {
   padding: 0.75rem;
   text-align: left;
   border: 1px solid #ddd;
 }
+
 .people-list th {
   background-color: #f4f4f4;
 }
+
 .people-list tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
