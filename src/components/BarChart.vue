@@ -1,103 +1,113 @@
 <template>
   <div class="bar-chart">
+    <br />
     <highcharts :options="chartOptions" :key="chartKey"></highcharts>
-    <p class="chart-description">
+    <p class="">
       <strong>Age Ranges:</strong>
-      <ul>
-        <li><strong>0 ≤ Age ≤ 20:</strong> Number of people aged between 0 and 20.</li>
-        <li><strong>21 ≤ Age ≤ 30:</strong> Number of people aged between 21 and 30.</li>
-        <li><strong>31 ≤ Age ≤ 40:</strong> Number of people aged between 31 and 40.</li>
-        <li><strong>41 ≤ Age ≤ 50:</strong> Number of people aged between 41 and 50.</li>
-      </ul>
-      <br>
-      <strong>Blood Groups:</strong>
-      <ul>
-        <li>The bar chart also shows the distribution of people across different blood groups.</li>
-      </ul>
+
+      <br />
     </p>
   </div>
 </template>
 
 <script>
-import { ref, watch } from 'vue';
-import HighchartsVue from 'highcharts-vue';
+import { ref, watch } from "vue";
+import HighchartsVue from "highcharts-vue";
 
 export default {
-  name: 'BarChart',
+  name: "BarChart",
   components: {
-    highcharts: HighchartsVue.component
+    highcharts: HighchartsVue.component,
   },
   props: {
-    people: Array
+    people: Array,
   },
   setup(props) {
     const chartOptions = ref({
       chart: {
-        type: 'column'
+        type: "column",
+        width: 800,
+        height: 400,
       },
       title: {
-        text: 'Distribution of People by Blood Group and Age Range'
+        text: "Distribution of People by Blood Group and Age Range",
       },
       xAxis: {
-        categories: []
+        categories: [],
       },
       yAxis: {
         title: {
-          text: 'Number of People'
-        }
-      },
-      series: [
-        {
-          name: 'Blood Groups',
-          data: []
+          text: "Number of People",
         },
-        {
-          name: 'Age Ranges',
-          data: []
-        }
-      ]
+      },
+      series: [],
     });
 
     const chartKey = ref(0);
 
     const processPeopleData = (people) => {
-      const bloodGroups = {};
-      const ageRanges = { '0-20': 0, '21-30': 0, '31-40': 0, '41-50': 0 };
+      const ageRanges = { "0-20": 0, "21-30": 0, "31-40": 0, "41-50": 0 };
+      const bloodGroups = { A: 0, B: 0, AB: 0, O: 0 };
+      const ageGroupByBloodGroup = {
+        A: { "0-20": 0, "21-30": 0, "31-40": 0, "41-50": 0 },
+        B: { "0-20": 0, "21-30": 0, "31-40": 0, "41-50": 0 },
+        AB: { "0-20": 0, "21-30": 0, "31-40": 0, "41-50": 0 },
+        O: { "0-20": 0, "21-30": 0, "31-40": 0, "41-50": 0 },
+      };
 
       people.forEach((person) => {
-        bloodGroups[person.bloodGroup] = (bloodGroups[person.bloodGroup] || 0) + 1;
+        bloodGroups[person.bloodGroup] += 1;
 
         if (person.age <= 20) {
-          ageRanges['0-20'] += 1;
+          ageRanges["0-20"] += 1;
+          ageGroupByBloodGroup[person.bloodGroup]["0-20"] += 1;
         } else if (person.age <= 30) {
-          ageRanges['21-30'] += 1;
+          ageRanges["21-30"] += 1;
+          ageGroupByBloodGroup[person.bloodGroup]["21-30"] += 1;
         } else if (person.age <= 40) {
-          ageRanges['31-40'] += 1;
+          ageRanges["31-40"] += 1;
+          ageGroupByBloodGroup[person.bloodGroup]["31-40"] += 1;
         } else {
-          ageRanges['41-50'] += 1;
+          ageRanges["41-50"] += 1;
+          ageGroupByBloodGroup[person.bloodGroup]["41-50"] += 1;
         }
       });
 
-      return { bloodGroups, ageRanges };
+      return { ageRanges, ageGroupByBloodGroup };
     };
 
-  watch(() => props.people, (newPeople) => {
-      const { bloodGroups, ageRanges } = processPeopleData(newPeople);
+    watch(
+      () => props.people,
+      (newPeople) => {
+        const { ageRanges, ageGroupByBloodGroup } =
+          processPeopleData(newPeople);
 
-      chartOptions.value.series[0].data = Object.values(bloodGroups);
-      chartOptions.value.series[1].data = Object.values(ageRanges);
-      chartOptions.value.xAxis.categories = [
-        ...Object.keys(bloodGroups),
-        ...Object.keys(ageRanges)
-      ];
+        chartOptions.value.xAxis.categories = Object.keys(ageRanges);
+        chartOptions.value.series = Object.keys(ageGroupByBloodGroup).map(
+          (bloodGroup) => ({
+            name: bloodGroup,
+            data: Object.values(ageGroupByBloodGroup[bloodGroup]),
+          })
+        );
 
-      chartKey.value += 1; // Trigger re-render
-    }, { immediate: true });
+        chartKey.value += 1; // Trigger re-render
+      },
+      { immediate: true }
+    );
 
     return {
       chartOptions,
-      chartKey
+      chartKey,
     };
-  }
+  },
 };
 </script>
+
+<style scoped>
+.bar-chart {
+  width: 100%; /* Ensure the container takes up full width */
+  display: flex;
+  margin-top: 50px;
+  justify-content: center; /* Center the chart horizontally */
+}
+</style>

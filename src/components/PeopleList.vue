@@ -54,10 +54,11 @@ export default {
 }
 .people-list h2 {
   text-align: center;
+  font-size: larger;
   margin-bottom: 1rem;
 }
 .people-list table {
-  width: 100%;
+  width: 50%;
   border-collapse: collapse;
   margin: auto;
 }

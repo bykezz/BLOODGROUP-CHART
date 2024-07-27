@@ -2,8 +2,8 @@
   <div id="app">
     <AppHeader />
     <main>
-      <PeopleList @data-updated="updatePeopleData" />
       <BarChart :people="people" />
+      <PeopleList @data-updated="updatePeopleData" />
     </main>
   </div>
 </template>
