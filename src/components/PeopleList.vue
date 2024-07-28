@@ -21,8 +21,7 @@
 </template>
 
 <script>
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
+import axios from "axios";
 
 export default {
   name: "PeopleList",
@@ -35,14 +34,16 @@ export default {
     const savedPeople = localStorage.getItem("people");
     if (savedPeople) {
       this.people = JSON.parse(savedPeople);
-      this.$emit("data-updated", this.people); // Emit event with data
+      this.$emit("data-updated", this.people);
     } else {
-      const querySnapshot = await getDocs(collection(db, "people"));
-      querySnapshot.forEach((doc) => {
-        this.people.push({ id: doc.id, ...doc.data() });
-      });
-      localStorage.setItem("people", JSON.stringify(this.people));
-      this.$emit("data-updated", this.people); // Emit event with data
+      try {
+        const response = await axios.get("http://localhost:3000/api/people");
+        this.people = response.data;
+        localStorage.setItem("people", JSON.stringify(this.people));
+        this.$emit("data-updated", this.people);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     }
   },
 };
@@ -50,10 +51,10 @@ export default {
 
 <style scoped>
 .people-list {
-  width: 100%; /* Ensure the list takes full width */
-  max-width: 600px; /* Set a max width for the list */
+  width: 100%;
+  max-width: 600px;
   padding: 1rem;
-  box-sizing: border-box; /* Include padding in width calculation */
+  box-sizing: border-box;
 }
 
 .people-list h2 {

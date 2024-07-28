@@ -51,12 +51,12 @@ export default {
 }
 
 .people-list {
-  flex: 1 30%; /* Takes 30% of the space */
-  min-width: 300px; /* Ensure a minimum width for the people list */
+  flex: 1 30%;
+  min-width: 300px;
 }
 
 .bar-chart {
-  flex: 2.5 1 50%; /* Takes 70% of the space */
-  min-width: 300px; /* Ensure a minimum width for the bar chart */
+  flex: 2.5 1 50%;
+  min-width: 300px;
 }
 </style>

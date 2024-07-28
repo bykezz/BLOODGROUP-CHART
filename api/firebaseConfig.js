@@ -1,7 +1,7 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+const { initializeApp } = require("firebase/app");
+const { getFirestore } = require("firebase/firestore");
 
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyAXZ18rkXzhrOYHT2Pslv9YGupwgfukw6M",
   authDomain: "generated-sample-data.firebaseapp.com",
   projectId: "generated-sample-data",
@@ -14,4 +14,4 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export { db };
+module.exports = { db };
