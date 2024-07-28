@@ -33,7 +33,7 @@ export default {
       xAxis: {
         categories: [],
         title: {
-          text: "Age Ranges",
+          text: "Age Range",
         },
       },
       yAxis: {
