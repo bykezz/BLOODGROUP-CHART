@@ -37,7 +37,9 @@ export default {
       this.$emit("data-updated", this.people);
     } else {
       try {
-        const response = await axios.get("http://localhost:3000/api/people");
+        const response = await axios.get(
+          "https://bloodgroup-chart.vercel.app/api/people"
+        );
         this.people = response.data;
         localStorage.setItem("people", JSON.stringify(this.people));
         this.$emit("data-updated", this.people);
