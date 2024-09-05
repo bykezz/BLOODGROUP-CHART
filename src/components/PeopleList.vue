@@ -1,6 +1,6 @@
 <template>
   <div class="people-list">
-    <h2>People Dataar</h2>
+    <h2>People Datar</h2>
     <table>
       <thead>
         <tr>
